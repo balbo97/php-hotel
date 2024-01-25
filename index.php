@@ -52,6 +52,35 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                <table class="table">
+                <thead>
+                <tr>
+                    <?php foreach (array_keys($hotels[0]) as $key) { ?>
+                        <th><?php echo $key;?></th>
+                    <?php } ?>
+                </tr>
+                </thead>
+                <tbody>
+                    <!-- Stampare tutti i nostri hotel con tutti i dati disponibili. -->
+                    <?php foreach ($hotels as $hotel) { ?>
+                        <tr>
+                            <td><?php echo $hotel['name']?></td>
+                            <td><?php echo $hotel['description']?></td>
+                            <td><?php echo $hotel['parking'] ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo $hotel['vote']?></td>
+                            <td><?php echo $hotel['distance_to_center']?></td>
+                        </tr>
+                    <?php } ?>
+                    
+                </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
