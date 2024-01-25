@@ -52,6 +52,7 @@
     <title>Document</title>
 </head>
 <body>
+    <?php include './partials/header.php';?>
     <main>
         <div class="container">
             <div class="row">
