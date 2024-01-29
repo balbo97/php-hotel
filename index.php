@@ -41,24 +41,42 @@
     ];
 
     $filtered_hotels = $hotels;
+    
 
+
+    // <!-- 2 - Aggiungere un form ad inizio pagina che tramite una richiesta GET permetta di filtrare gli hotel che hanno un parcheggio. -->
     if(isset($_GET['parking']) && $_GET['parking'] != ''){
-        $filtered_hotel = [];
+        $filtered_hotel_parking = [];
         $parking = filter_var($_GET['parking'], FILTER_VALIDATE_BOOLEAN);
 
-        foreach($hotels as $hotel){
+        foreach($filtered_hotels as $hotel){
             if($hotel['parking'] == $parking){
-                $filtered_hotel[] = $hotel;
+                $filtered_hotel_parking[] = $hotel;
             }
         }
 
-        $filtered_hotels = $filtered_hotel;
+        $filtered_hotels = $filtered_hotel_parking;
 
         
     }
 
-    var_dump($filtered_hotels);
+    // <!-- 3 - Aggiungere un secondo campo al form che permetta di filtrare gli hotel per voto (es. inserisco 3 ed ottengo tutti gli hotel che hanno un voto di tre stelle o superiore) -->
+    if(isset($_GET['star']) && $_GET['star'] != ''){
+        $filtered_hotel_star = [];
+        $star = $_GET['star'];
 
+        foreach($filtered_hotels as $hotel){
+            if($hotel['vote'] >= $star){
+                $filtered_hotel_star[] = $hotel;
+            }
+        }
+
+        $filtered_hotels = $filtered_hotel_star;
+
+        
+    }
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -84,11 +102,24 @@
                             <div class="col-4">
                                 <select class="form-select" aria-label="Default select example" name="parking" id="parking">
                                     <option selected>Select parking option</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="true" <?php echo (isset($_GET['parking']) && $_GET['parking'] === 'true') ? 'selected' : ''; ?>>Yes</option>
+                                    <option value="false" <?php echo (isset($_GET['parking']) && $_GET['parking'] === 'false') ? 'selected' : ''; ?>>No</option>
+
                                     
                                 </select>
                             </div>
+                            <!-- 3 - Aggiungere un secondo campo al form che permetta di filtrare gli hotel per voto (es. inserisco 3 ed ottengo tutti gli hotel che hanno un voto di tre stelle o superiore) -->
+                            <div class="col-4">
+                                <select class="form-select" aria-label="Default select example" name="star" id="star">
+                                    <option selected>Select Hotel's stars</option>
+                                    <option value='1'>1 STAR</option>
+                                    <option value="2">2 STARS</option>
+                                    <option value="3">3 STARS</option>
+                                    <option value="4">4 STARS</option>
+                                    <option value="5">5 STARS</option>
+                                </select>
+                            </div>
+
                             <div class="col-4">
                                 <button type="submit" class="btn btn-primary">Filtra</button>
                             </div>
@@ -111,10 +142,10 @@
                     <?php foreach ($filtered_hotels as $hotel) { ?>
                         <tr>
                             <td><?php echo $hotel['name']; ?></td>
-                            <td><?php echo $hotel['description']?></td>
+                            <td><?php echo $hotel['description'];?></td>
                             <td><?php echo $hotel['parking'] ? 'Yes' : 'No'; ?></td>
-                            <td><?php echo $hotel['vote']?></td>
-                            <td><?php echo $hotel['distance_to_center']?></td>
+                            <td><?php echo $hotel['vote'];?></td>
+                            <td><?php echo $hotel['distance_to_center'];?></td>
                         </tr>
                     <?php } ?>
                     
